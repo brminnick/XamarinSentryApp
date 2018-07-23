@@ -1,4 +1,6 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace XamarinSentryApp
 {
@@ -46,23 +48,11 @@ namespace XamarinSentryApp
         {
             if (e.NewValue < 0)
             {
-                try
-                {
-                    AnalyticsService.CrashApp();
-                }
-                catch(System.Exception ex)
-                {
-                    AnalyticsService.Report(ex);
-
-                    var shouldCrashApp = await DisplayAlert("Crash App?", "Tapping OK will crash the app", "OK", "Cancel");
-
-                    if (shouldCrashApp)
-                        throw;
-                }
-                finally
-                {
-                    _stepper.Value = 0;
-                }
+                await PromptForCrash();
+            }
+            else if (e.NewValue > 10)
+            {
+                await GetFeedback();
             }
             else
             {
@@ -72,6 +62,46 @@ namespace XamarinSentryApp
                     AnalyticsService.TrackEvent(AnalyticsConstants.Decrement, AnalyticsConstants.NewValue, e.NewValue.ToString());
 
                 _countLabel.Text = e.NewValue.ToString();
+            }
+        }
+
+        async Task PromptForCrash()
+        {
+            try
+            {
+                AnalyticsService.CrashApp();
+            }
+            catch (Exception ex)
+            {
+                var reportTask = Task.Run(() => AnalyticsService.Report(ex));
+
+                var shouldCrashApp = await DisplayAlert("Crash App?", "Tapping OK will crash the app", "OK", "Cancel");
+
+                await reportTask;
+
+                if (shouldCrashApp)
+                    throw;
+            }
+            finally
+            {
+                _stepper.Value = 0;
+            }
+        }
+
+        async Task GetFeedback()
+        {
+            try
+            {
+                var isEnjoying = await DisplayAlert("Enjoying the app?", "Are you enjoying the app?", "Yes", "No");
+
+                if (isEnjoying)
+                    await AnalyticsService.SendUserFeedback("Great app!");
+                else
+                    await AnalyticsService.SendUserFeedback("Meh");
+            }
+            finally
+            {
+                _stepper.Value = 10;
             }
         }
     }

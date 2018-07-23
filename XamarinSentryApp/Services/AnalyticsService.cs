@@ -1,9 +1,11 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 using SharpRaven;
+using SharpRaven.Data;
 
 using Xamarin.Essentials;
 
@@ -34,14 +36,26 @@ namespace XamarinSentryApp
                 TrackEvent(trackIdentifier, new Dictionary<string, string> { { key, value } });
         }
 
-        public static void Report(Exception exception,
+        public static Task SendUserFeedback(string comments)
+        {
+            var feedback = new SentryUserFeedback
+            {
+                Comments = comments,
+                Name = "Anonymous User",
+                Email = "anonymous@user.com"
+            };
+
+            return RavenClient.SendUserFeedbackAsync(feedback);
+        }
+
+        public static Task Report(Exception exception,
                                     [CallerMemberName] string callerMemberName = "",
                                     [CallerLineNumber] int lineNumber = 0,
                                     [CallerFilePath] string filePath = "")
         {
             PrintException(exception, callerMemberName, lineNumber, filePath);
 
-            RavenClient.Capture(new SharpRaven.Data.SentryEvent(exception));
+            return RavenClient.CaptureAsync(new SentryEvent(exception));
         }
 
         [Conditional("DEBUG")]
