@@ -5,12 +5,14 @@ using System.Runtime.CompilerServices;
 
 using SharpRaven;
 
+using Xamarin.Essentials;
+
 namespace XamarinSentryApp
 {
     public static class AnalyticsService
     {
         #region Constant Fields
-        readonly static Lazy<RavenClient> _ravenClientHolder = new Lazy<RavenClient>(() => new RavenClient(AnalyticsConstants.RavenDsn));
+        readonly static Lazy<RavenClient> _ravenClientHolder = new Lazy<RavenClient>(() => new RavenClient(AnalyticsConstants.RavenDsn) { Release = AppInfo.VersionString });
         #endregion
 
         #region Properties
@@ -33,9 +35,9 @@ namespace XamarinSentryApp
         }
 
         public static void Report(Exception exception,
-                                  [CallerMemberName] string callerMemberName = "",
-                                  [CallerLineNumber] int lineNumber = 0,
-                                  [CallerFilePath] string filePath = "")
+                                    [CallerMemberName] string callerMemberName = "",
+                                    [CallerLineNumber] int lineNumber = 0,
+                                    [CallerFilePath] string filePath = "")
         {
             PrintException(exception, callerMemberName, lineNumber, filePath);
 

@@ -46,10 +46,23 @@ namespace XamarinSentryApp
         {
             if (e.NewValue < 0)
             {
-                var shouldCrashApp = await DisplayAlert("Crash App?", "Tapping OK will crash the app", "OK", "Cancel");
-
-                if (shouldCrashApp)
+                try
+                {
                     AnalyticsService.CrashApp();
+                }
+                catch(System.Exception ex)
+                {
+                    AnalyticsService.Report(ex);
+
+                    var shouldCrashApp = await DisplayAlert("Crash App?", "Tapping OK will crash the app", "OK", "Cancel");
+
+                    if (shouldCrashApp)
+                        throw;
+                }
+                finally
+                {
+                    _stepper.Value = 0;
+                }
             }
             else
             {
