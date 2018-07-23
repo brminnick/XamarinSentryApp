@@ -1,27 +1,30 @@
 ﻿using System;
 using System.Threading.Tasks;
+
 using Xamarin.Forms;
+
+using XamarinSentryApp.Shared;
 
 namespace XamarinSentryApp
 {
     public class CountPage : ContentPage
     {
-        readonly Stepper _stepper;
-        readonly Label _countLabel;
-
+        #region Constructors
         public CountPage()
         {
-            _stepper = new Stepper
+            Stepper = new Stepper
             {
                 Minimum = double.MinValue,
                 Increment = 1,
-                Value = 0
+                Value = 0,
+                AutomationId = AutomationIdConstants.Stepper,
             };
 
-            _countLabel = new Label
+            CountLabel = new Label
             {
                 Text = "0",
-                HorizontalTextAlignment = TextAlignment.Center
+                HorizontalTextAlignment = TextAlignment.Center,
+                AutomationId = AutomationIdConstants.CountLabel
             };
 
             Content = new StackLayout
@@ -31,17 +34,26 @@ namespace XamarinSentryApp
                 Spacing = 20,
 
                 Children = {
-                    _countLabel,
-                    _stepper
+                    CountLabel,
+                    Stepper
                 }
             };
-        }
 
+            Title = PageTitleConstants.CountPage;
+        }
+        #endregion
+
+        #region Properties
+        public Stepper Stepper { get; }
+        public Label CountLabel { get; }
+        #endregion
+
+        #region Methods
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            _stepper.ValueChanged += HandleStepperValueChanged;
+            Stepper.ValueChanged += HandleStepperValueChanged;
         }
 
         async void HandleStepperValueChanged(object sender, ValueChangedEventArgs e)
@@ -61,7 +73,7 @@ namespace XamarinSentryApp
                 else if (e.NewValue < e.OldValue)
                     AnalyticsService.TrackEvent(AnalyticsConstants.Decrement, AnalyticsConstants.NewValue, e.NewValue.ToString());
 
-                _countLabel.Text = e.NewValue.ToString();
+                CountLabel.Text = e.NewValue.ToString();
             }
         }
 
@@ -84,7 +96,7 @@ namespace XamarinSentryApp
             }
             finally
             {
-                _stepper.Value = 0;
+                Stepper.Value = 0;
             }
         }
 
@@ -98,11 +110,14 @@ namespace XamarinSentryApp
                     await AnalyticsService.SendUserFeedback("Great app!");
                 else
                     await AnalyticsService.SendUserFeedback("Meh");
+
+                AnalyticsService.TrackEvent(AnalyticsConstants.UserFeedbackSent);
             }
             finally
             {
-                _stepper.Value = 10;
+                Stepper.Value = 10;
             }
         }
+        #endregion
     }
 }

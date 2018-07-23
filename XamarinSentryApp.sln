@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinSentryApp.iOS", "Xam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinSentryApp", "XamarinSentryApp\XamarinSentryApp.csproj", "{6A28F6D2-80BB-46B1-B697-0EAC6F624CA2}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "XamarinSentryApp.Shared", "XamarinSentryApp.Shared\XamarinSentryApp.Shared.shproj", "{73CC6EE2-7589-4FC2-A447-7A7E2C7D909B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinSentryApp.UITests", "XamarinSentryApp.UITests\XamarinSentryApp.UITests.csproj", "{38A66E18-5DF3-497F-B879-E664013F6771}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,5 +71,21 @@ Global
 		{6A28F6D2-80BB-46B1-B697-0EAC6F624CA2}.Ad-Hoc|iPhone.Build.0 = Debug|Any CPU
 		{6A28F6D2-80BB-46B1-B697-0EAC6F624CA2}.AppStore|iPhone.ActiveCfg = Debug|Any CPU
 		{6A28F6D2-80BB-46B1-B697-0EAC6F624CA2}.AppStore|iPhone.Build.0 = Debug|Any CPU
+		{38A66E18-5DF3-497F-B879-E664013F6771}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38A66E18-5DF3-497F-B879-E664013F6771}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38A66E18-5DF3-497F-B879-E664013F6771}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38A66E18-5DF3-497F-B879-E664013F6771}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38A66E18-5DF3-497F-B879-E664013F6771}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{38A66E18-5DF3-497F-B879-E664013F6771}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{38A66E18-5DF3-497F-B879-E664013F6771}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{38A66E18-5DF3-497F-B879-E664013F6771}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{38A66E18-5DF3-497F-B879-E664013F6771}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{38A66E18-5DF3-497F-B879-E664013F6771}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{38A66E18-5DF3-497F-B879-E664013F6771}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{38A66E18-5DF3-497F-B879-E664013F6771}.Release|iPhone.Build.0 = Release|Any CPU
+		{38A66E18-5DF3-497F-B879-E664013F6771}.Ad-Hoc|iPhone.ActiveCfg = Release|Any CPU
+		{38A66E18-5DF3-497F-B879-E664013F6771}.Ad-Hoc|iPhone.Build.0 = Release|Any CPU
+		{38A66E18-5DF3-497F-B879-E664013F6771}.AppStore|iPhone.ActiveCfg = Release|Any CPU
+		{38A66E18-5DF3-497F-B879-E664013F6771}.AppStore|iPhone.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

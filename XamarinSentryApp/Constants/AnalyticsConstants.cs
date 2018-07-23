@@ -7,5 +7,6 @@
         public const string Decrement = "Decrement";
         public const string Increment = "Increment";
         public const string NewValue = "New Value";
+        public const string UserFeedbackSent = "User Feedback Sent";
     }
 }

@@ -18,4 +18,5 @@
     <Folder Include="Pages\" />
     <Folder Include="Constants\" />
   </ItemGroup>
+  <Import Project="..\XamarinSentryApp.Shared\XamarinSentryApp.Shared.projitems" Label="Shared" Condition="Exists('..\XamarinSentryApp.Shared\XamarinSentryApp.Shared.projitems')" />
 </Project>
