@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -15,13 +15,22 @@ namespace XamarinSentryApp
             {
                 Minimum = double.MinValue,
                 Increment = 1,
-                Value = 0
+                Value = 0,
+                HorizontalOptions = LayoutOptions.Center
             };
+            _stepper.ValueChanged += HandleStepperValueChanged;
 
             _countLabel = new Label
             {
                 Text = "0",
                 HorizontalTextAlignment = TextAlignment.Center
+            };
+
+            var explainationLabel = new Label
+            {
+                Text = "Crank it up to eleven\n...or drop it below zero",
+                HorizontalTextAlignment = TextAlignment.Center,
+                TextColor = Color.DimGray
             };
 
             Content = new StackLayout
@@ -32,16 +41,10 @@ namespace XamarinSentryApp
 
                 Children = {
                     _countLabel,
-                    _stepper
+                    _stepper,
+                    explainationLabel
                 }
             };
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            _stepper.ValueChanged += HandleStepperValueChanged;
         }
 
         async void HandleStepperValueChanged(object sender, ValueChangedEventArgs e)

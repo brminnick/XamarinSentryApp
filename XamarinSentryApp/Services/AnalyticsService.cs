@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -26,7 +26,7 @@ namespace XamarinSentryApp
         public static void CrashApp() => throw new Exception("Auto-Generated Exception");
 
         public static void TrackEvent(string trackIdentifier, IDictionary<string, string> table = null) =>
-            RavenClient.AddTrail(new SharpRaven.Data.Breadcrumb(trackIdentifier) { Data = table });
+            RavenClient.AddTrail(new Breadcrumb(trackIdentifier) { Data = table });
 
         public static void TrackEvent(string trackIdentifier, string key, string value)
         {
