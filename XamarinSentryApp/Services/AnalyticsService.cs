@@ -13,19 +13,14 @@ namespace XamarinSentryApp
 {
     public static class AnalyticsService
     {
-        #region Constant Fields
         readonly static Lazy<RavenClient> _ravenClientHolder = new Lazy<RavenClient>(() => new RavenClient(AnalyticsConstants.RavenDsn) { Release = AppInfo.VersionString });
-        #endregion
 
-        #region Properties
         static RavenClient RavenClient => _ravenClientHolder.Value;
-        #endregion
 
-        #region Methods
         [Conditional("DEBUG")]
         public static void CrashApp() => throw new Exception("Auto-Generated Exception");
 
-        public static void TrackEvent(string trackIdentifier, IDictionary<string, string> table = null) =>
+        public static void TrackEvent(string trackIdentifier, IDictionary<string, string>? table = null) =>
             RavenClient.AddTrail(new Breadcrumb(trackIdentifier) { Data = table });
 
         public static void TrackEvent(string trackIdentifier, string key, string value)
@@ -69,6 +64,5 @@ namespace XamarinSentryApp
             Debug.WriteLine($"Caller Name: {callerMemberName}");
             Debug.WriteLine($"File Name: {fileName}");
         }
-        #endregion
     }
 }

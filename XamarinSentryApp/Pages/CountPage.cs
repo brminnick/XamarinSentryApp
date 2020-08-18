@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Forms.Markup;
 
 namespace XamarinSentryApp
 {
@@ -11,38 +12,25 @@ namespace XamarinSentryApp
 
         public CountPage()
         {
-            _stepper = new Stepper
-            {
-                Minimum = double.MinValue,
-                Increment = 1,
-                Value = 0,
-                HorizontalOptions = LayoutOptions.Center
-            };
-            _stepper.ValueChanged += HandleStepperValueChanged;
-
-            _countLabel = new Label
-            {
-                Text = "0",
-                HorizontalTextAlignment = TextAlignment.Center
-            };
-
-            var explainationLabel = new Label
-            {
-                Text = "Crank it up to eleven\n...or drop it below zero",
-                HorizontalTextAlignment = TextAlignment.Center,
-                TextColor = Color.DimGray
-            };
-
             Content = new StackLayout
             {
                 VerticalOptions = LayoutOptions.Center,
                 HorizontalOptions = LayoutOptions.Center,
                 Spacing = 20,
 
-                Children = {
-                    _countLabel,
-                    _stepper,
-                    explainationLabel
+                Children =
+                {
+                    new Label { Text = "0" }.TextCenter().Assign(out _countLabel),
+
+                    new Stepper
+                    {
+                        Minimum = double.MinValue,
+                        Increment = 1,
+                        Value = 0,
+                    }.Center().Assign(out _stepper)
+                     .Invoke(stepper => stepper.ValueChanged += HandleStepperValueChanged),
+
+                    new Label { Text = "Crank it up to eleven\n...or drop it below zero", TextColor = Color.DimGray }.TextCenter()
                 }
             };
         }
@@ -76,11 +64,9 @@ namespace XamarinSentryApp
             }
             catch (Exception ex)
             {
-                var reportTask = Task.Run(() => AnalyticsService.Report(ex));
-
                 var shouldCrashApp = await DisplayAlert("Crash App?", "Tapping OK will crash the app", "OK", "Cancel");
 
-                await reportTask;
+                await AnalyticsService.Report(ex);
 
                 if (shouldCrashApp)
                     throw;
