@@ -14,8 +14,6 @@ namespace XamarinSentryApp
         {
             Content = new StackLayout
             {
-                VerticalOptions = LayoutOptions.Center,
-                HorizontalOptions = LayoutOptions.Center,
                 Spacing = 20,
 
                 Children =
@@ -32,7 +30,7 @@ namespace XamarinSentryApp
 
                     new Label { Text = "Crank it up to eleven\n...or drop it below zero", TextColor = Color.DimGray }.TextCenter()
                 }
-            };
+            }.Center();
         }
 
         async void HandleStepperValueChanged(object sender, ValueChangedEventArgs e)
