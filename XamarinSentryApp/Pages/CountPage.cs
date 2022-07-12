@@ -64,7 +64,7 @@ namespace XamarinSentryApp
             {
                 var shouldCrashApp = await DisplayAlert("Crash App?", "Tapping OK will crash the app", "OK", "Cancel");
 
-                await AnalyticsService.Report(ex);
+                AnalyticsService.Report(ex);
 
                 if (shouldCrashApp)
                     throw;
@@ -82,9 +82,9 @@ namespace XamarinSentryApp
                 var isEnjoying = await DisplayAlert("Enjoying the app?", "Are you enjoying the app?", "Yes", "No");
 
                 if (isEnjoying)
-                    await AnalyticsService.SendUserFeedback("Great app!");
+                    AnalyticsService.SendUserFeedback("Great app!");
                 else
-                    await AnalyticsService.SendUserFeedback("Meh");
+                    AnalyticsService.SendUserFeedback("Meh");
             }
             finally
             {

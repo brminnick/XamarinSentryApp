@@ -2,55 +2,57 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-
-using SharpRaven;
-using SharpRaven.Data;
-
+using Sentry;
 using Xamarin.Essentials;
 
 namespace XamarinSentryApp
 {
     public static class AnalyticsService
     {
-        readonly static Lazy<RavenClient> _ravenClientHolder = new(() => new RavenClient(AnalyticsConstants.RavenDsn) { Release = AppInfo.VersionString });
-
-        static RavenClient RavenClient => _ravenClientHolder.Value;
+        public static void Init()
+        {
+            SentryXamarin.Init(o =>
+            {
+                o.AddXamarinFormsIntegration();
+                o.DisableXamarinWarningsBreadcrumbs();
+                o.StackTraceMode = StackTraceMode.Enhanced;
+                o.Dsn = AnalyticsConstants.SentryDsn;
+                o.Debug = true;
+                o.TracesSampleRate = 1.0;
+                o.AttachScreenshots = true;
+                o.Release = AppInfo.VersionString;
+            });
+        }
 
         [Conditional("DEBUG")]
         public static void CrashApp() => throw new Exception("Auto-Generated Exception");
 
-        public static void TrackEvent(string trackIdentifier, IDictionary<string, string>? table = null) =>
-            RavenClient.AddTrail(new Breadcrumb(trackIdentifier) { Data = table });
+        public static void TrackEvent(string message, IDictionary<string, string>? data = null) =>
+            SentrySdk.AddBreadcrumb(message, data: data);
 
-        public static void TrackEvent(string trackIdentifier, string key, string value)
+        public static void TrackEvent(string message, string key, string value)
         {
             if (string.IsNullOrWhiteSpace(key) && string.IsNullOrWhiteSpace(value))
-                TrackEvent(trackIdentifier);
+                TrackEvent(message);
             else
-                TrackEvent(trackIdentifier, new Dictionary<string, string> { { key, value } });
+                TrackEvent(message, new Dictionary<string, string> { { key, value } });
         }
 
-        public static Task SendUserFeedback(string comments)
+        public static void SendUserFeedback(string comments)
         {
-            var feedback = new SentryUserFeedback
-            {
-                Comments = comments,
-                Name = "Anonymous User",
-                Email = "anonymous@user.com"
-            };
+            var eventId = SentrySdk.CaptureMessage("An event that will receive user feedback.");
 
-            return RavenClient.SendUserFeedbackAsync(feedback);
+            SentrySdk.CaptureUserFeedback(new UserFeedback(eventId, "Anonymous User", "anonymous@user.com", comments));
         }
 
-        public static Task Report(Exception exception,
+        public static void Report(Exception exception,
                                     [CallerMemberName] string callerMemberName = "",
                                     [CallerLineNumber] int lineNumber = 0,
                                     [CallerFilePath] string filePath = "")
         {
             PrintException(exception, callerMemberName, lineNumber, filePath);
 
-            return RavenClient.CaptureAsync(new SentryEvent(exception));
+            SentrySdk.CaptureException(exception);
         }
 
         [Conditional("DEBUG")]
