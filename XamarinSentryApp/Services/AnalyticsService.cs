@@ -13,7 +13,7 @@ namespace XamarinSentryApp
 {
     public static class AnalyticsService
     {
-        readonly static Lazy<RavenClient> _ravenClientHolder = new Lazy<RavenClient>(() => new RavenClient(AnalyticsConstants.RavenDsn) { Release = AppInfo.VersionString });
+        readonly static Lazy<RavenClient> _ravenClientHolder = new(() => new RavenClient(AnalyticsConstants.RavenDsn) { Release = AppInfo.VersionString });
 
         static RavenClient RavenClient => _ravenClientHolder.Value;
 

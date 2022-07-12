@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>netstandard2.1</TargetFramework>
@@ -9,9 +9,9 @@
 	<ItemGroup>
 		<PackageReference Include="SharpRaven" Version="2.4.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-		<PackageReference Include="Xamarin.Forms" Version="5.0.0.1791-pre5" />
-		<PackageReference Include="Xamarin.Essentials" Version="1.6.0-pre5" />
-		<PackageReference Include="Xamarin.CommunityToolkit.Markup" Version="1.0.0-pre5" />
+		<PackageReference Include="Xamarin.Forms" Version="5.0.0.2478" />
+		<PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
+		<PackageReference Include="Xamarin.CommunityToolkit.Markup" Version="2.0.4" />
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Services\" />
